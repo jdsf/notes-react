@@ -148,25 +148,25 @@ class MainSection extends Component {
 
 
    if (this.state.showEntries){
-     section = (<form>
+     section = (<div>
                    <Entries click = {showEntry.bind(this)} entries = {this.state.entries}> </Entries>
                    <br/>
                    <Button click = {changeView} name = "new"> </Button>
-                 </form>
+                 </div>
                );
 
    } else if (this.state.editEntry.title === "default") {
-     section = (<form >
+     section = (<div>
                    <Editor trackText = {trackText.bind(this)}
                            chosenEntry = {this.state.editEntry}
                    > </Editor>
                    <br/>
                     <Button click = {addEntry} name = "done"> </Button>
                     <Button click = {goBack} name = "return"> </Button>
-                 </form>
+                 </div>
                );
    } else {
-     section = (<form>
+     section = (<div>
                    <Editor trackText = {trackText.bind(this)}
                            chosenEntry = {this.state.editEntry}
                    > </Editor>
@@ -174,7 +174,7 @@ class MainSection extends Component {
                    <Button click = {addEntry} name = "done"> </Button>
                    <Button click = {goBack} name = "return"> </Button>
                    <Button click = {deleteEntry} name = "delete"> </Button>
-                 </form>
+                 </div>
                );
    }
 
