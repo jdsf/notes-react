@@ -58,18 +58,28 @@ div.entry {
 }
 
 /* animations */
-@keyframes fade{
-    0%{
-        transform: rotate(0) translateY(-15%);
-        opacity: 0;
-        }
-    100%{
-        transform: rotate(0) translateY(0);
-          opacity: 1;
-        }
-}
 
-/*.fade-in{
-  animation: fade 1s forwards 0s ease;
+
+.fade-enter {
+ opacity: 0;
+ transform: translate(0,-15%);
 }
-*/
+.fade-enter.fade-enter-active {
+ opacity: 1;
+ transition: opacity 1s ease;
+ transform: translate(0, 0);
+ transition-property: transform, opacity;
+ transition-duration: 1000ms;
+ transition-timing-function: ease;
+}
+.fade-exit {
+ opacity: 1;
+ transform: translate(0,0);
+ transition-property: transform, opacity;
+ transition-duration: 1000ms;
+ transition-timing-function:  ease;
+}
+.fade-exit.fade-exit-active {
+ opacity: 0;
+ transform: translate(0,-15%);
+}

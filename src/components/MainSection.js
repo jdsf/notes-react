@@ -4,6 +4,9 @@ import Editor from './Editor';
 import Button from './Button';
 import DayInfo from './DayInfo';
 
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+
+
 
 
 
@@ -14,8 +17,11 @@ class MainSection extends Component {
   state = {
     header: "home",
     showEntries: true,
-    entries: [{ title: "sample title", content: "try editing, deleting or adding your own!"}
-    ],
+    entries:
+      {
+        title: "sample title",
+        content: "try editing, deleting or adding your own!"
+      },
     newEntry: {title: "default title", content: "default content"},
     editEntry: {title: "default", content: "default"},
     editPosition: 0
@@ -35,7 +41,6 @@ class MainSection extends Component {
   }
 
   render() {
-
 
 
 
@@ -94,6 +99,11 @@ class MainSection extends Component {
    const addEntry = () => {
 
      let change;
+     let date = new Date();
+     let months = ["January", "February", "March", "April", "May",
+                    "June", "July", "August", "September", "October",
+                    "November", "December"
+                  ];
 
      if (this.state.editEntry.title === "default") {
        change = this.state.entries.concat(
@@ -148,15 +158,14 @@ class MainSection extends Component {
 
 
    if (this.state.showEntries){
-     section = (<div>
+     section = (<div className = "fade">
                    <Entries click = {showEntry.bind(this)} entries = {this.state.entries}> </Entries>
                    <br/>
-                   <Button click = {changeView} name = "new"> </Button>
                  </div>
                );
 
    } else if (this.state.editEntry.title === "default") {
-     section = (<div>
+     section = (<div className = "fade">
                    <Editor trackText = {trackText.bind(this)}
                            chosenEntry = {this.state.editEntry}
                    > </Editor>
@@ -166,7 +175,7 @@ class MainSection extends Component {
                  </div>
                );
    } else {
-     section = (<div>
+     section = (<div className = "fade">
                    <Editor trackText = {trackText.bind(this)}
                            chosenEntry = {this.state.editEntry}
                    > </Editor>
@@ -183,7 +192,11 @@ class MainSection extends Component {
         <div id= "header-main-section">
           <DayInfo date = {new Date()}></DayInfo>
           <header><h1> {this.state.header} </h1></header>
-          {section}
+          <TransitionGroup>
+            <CSSTransition timeout = {1000} classNames = "fade">
+                {section}
+            </CSSTransition>
+          </TransitionGroup>
         </div>
         <br/>
         <footer><h2>Notes</h2></footer>
