@@ -27,6 +27,7 @@ class MainSection extends Component {
     editPosition: 0
   };
 
+   /**** adding some nonesense ***/
   componentWillMount() {
     if (window.localStorage.notes) {
       let notes = JSON.parse(window.localStorage.notes);
