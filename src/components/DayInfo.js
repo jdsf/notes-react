@@ -71,7 +71,8 @@ const DayInfo = (props) => {
   const handleDayNumber = () => {
     let day = props.date.getDate();
     let properDay = day;
-    if (day % 10 === 0 || day % 10 > 3) {
+    if (day % 10 === 0  || day > 4 && day !== 21
+        && day !== 22 && day !== 23) {
       properDay += "th";
     } else if (day % 10 === 1) {
       properDay += "st";
