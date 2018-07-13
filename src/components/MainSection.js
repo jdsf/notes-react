@@ -43,7 +43,6 @@ class MainSection extends Component {
   };
 
   componentWillMount() {
-
     if (window.localStorage.notes) {
       let notes = JSON.parse(window.localStorage.notes);
       if (this.state.entries !== notes) {
@@ -86,6 +85,14 @@ class MainSection extends Component {
      this.setState({
        editPosition: {year: 0, month: 0, day: 0, position: 0}
      });
+
+     this.setState({
+       newEntry: {
+                   title: "default title",
+                   content: "default content"
+                 }
+     });
+
    }
 
    const goBack = () => {
@@ -127,11 +134,11 @@ class MainSection extends Component {
 
 
    const addEntry = () => {
-     let today = growTree(this.state.entries); // today = [year, month, day]
      let entriesCopy = this.state.entries;
      let change;
 
      if (this.state.editEntry.title === "default") {
+       let today = growTree(this.state.entries); // today = [year, month, day]
        let monthsArray = entriesCopy[today[0]];
        let monthPos = monthsArray.length - 1;
        let monthObj = monthsArray[monthPos];
@@ -166,6 +173,7 @@ class MainSection extends Component {
 
      updateStorage(change);
      goBack();
+
    }
 
    /*  Helper function, checks if the current state contains a branch
@@ -234,12 +242,11 @@ class MainSection extends Component {
    }
 
    const showEntry = (position) => {
-
      let pos = JSON.parse(position);
      let year = pos.year;
      let month = pos.month;
      let day = pos.day;
-     let index = pos.position;
+     let indx = pos.position;
 
      let confirm = window.confirm("Edit this entry?");
 
@@ -248,8 +255,7 @@ class MainSection extends Component {
        let monthObject = this.state.entries[year][month];
        let monthName = Object.keys(monthObject)[0];
        let dayNumber = Object.keys(monthObject[monthName][day])[0];
-       let chosen = monthObject[monthName][day][dayNumber][index];
-
+       let chosen = monthObject[monthName][day][dayNumber][indx];
        this.setState({
          editEntry: chosen
        });
@@ -266,12 +272,32 @@ class MainSection extends Component {
    const deleteEntry = () => {
      let confirm = window.confirm("Are you sure?");
      if (confirm){
-       let change;
-       change = this.state.entries;
-       change.splice(this.state.editPosition, 1);
+       let change = this.state.entries;
+       let editYear = this.state.editPosition.year;
+       let editMonth = this.state.editPosition.month;
+       let editMonthName = Object.keys(change[editYear][editMonth])[0];
+       let editDay = this.state.editPosition.day;
+       let editDayName = Object.keys(change[editYear][editMonth][editMonthName][editDay]);
+       let editPos = this.state.editPosition.position;
+
+       change[editYear][editMonth][editMonthName][editDay][editDayName].splice(editPos, 1);
+       let endBranch = change[editYear][editMonth][editMonthName][editDay][editDayName];
+       if (endBranch.length === 0){
+         delete change[editYear][editMonth][editMonthName][editDay];
+         endBranch = change[editYear][editMonth][editMonthName];
+         if (endBranch.length === 0 || endBranch.includes(undefined)) {
+           delete change[editYear][editMonth];
+           endBranch = change[editYear];
+           if (endBranch.length === 0 || endBranch.includes(undefined)) {
+             delete change[editYear];
+           }
+         }
+       }
+
        this.setState({
          entries: change
        });
+
        updateStorage(change);
        goBack();
      }
@@ -291,7 +317,7 @@ class MainSection extends Component {
       for (let i = 0; i < allYears.length; i++) {
         let year = allYears[i];
         yearHeading = (
-          <h3> {year} </h3>
+          <h3 className = "year"> {year} </h3>
         );
         section.push(yearHeading);
         position.year = year;
@@ -299,7 +325,7 @@ class MainSection extends Component {
         for (let i = 0; i < monthsArray.length; i++) {
           let month = Object.keys(monthsArray[i])[0];
           monthHeading = (
-            <h4> {month} </h4>
+            <h4 className = "month"> {month} </h4>
           );
           section.push(monthHeading);
           position.month = i;
@@ -307,7 +333,7 @@ class MainSection extends Component {
           for (let i = 0; i < currentMonth.length; i++) {
             let day =  Object.keys(currentMonth[i])[0];
             dayHeading = (
-              <h5> {day} </h5>
+              <h5 className = "day"> {day} </h5>
             );
             section.push(dayHeading);
             position.day = i;
@@ -324,6 +350,13 @@ class MainSection extends Component {
           }
         }
       }
+
+      if (section.length === 0) {
+        section.push (
+          <p> No entries whatsoever! Let us do something about that :) </p>
+        );
+      }
+
       section = (<div>
                   {section}
                   <Button click = {goBack} name = "new"> </Button>
@@ -355,16 +388,24 @@ class MainSection extends Component {
     return (
       <div className = "app-container stretch-full">
         <div id= "header-main-section">
-          <DayInfo date = {new Date()}></DayInfo>
-          <header><h1> {this.state.header} </h1></header>
-          <TransitionGroup>
-            <CSSTransition timeout = {1000} classNames = "fade">
-                {section}
-            </CSSTransition>
-          </TransitionGroup>
+          <DayInfo  date = {new Date()}></DayInfo>
+          <h1 id = "title">
+            <span>   notes </span>
+          </h1>
+          <main>
+            <header><h1> {this.state.header} </h1></header>
+            <TransitionGroup>
+              <CSSTransition timeout = {1000} classNames = "fade">
+                  {section}
+              </CSSTransition>
+            </TransitionGroup>
+          </main>
         </div>
-        <br/>
-        <footer><h2>Notes</h2></footer>
+        <footer>
+          <p> Notes app powered by react / /
+             jdsf @github / / 2018, all rights reserved
+          </p>
+        </footer>
       </div>
     )
   }

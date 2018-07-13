@@ -17,7 +17,7 @@ const Entries = (props) => {
 
       {props.entries.map(function(entry,index){
         let position = JSON.parse(props.position);
-        position.positon = index;
+        position.position = index;
         position = JSON.stringify(position);
         return <Entry click =  {startShow.bind(this)} key = { index }
                   index = {position} title = {entry.title}>
