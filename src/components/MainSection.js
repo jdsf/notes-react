@@ -18,42 +18,32 @@ class MainSection extends Component {
     header: "home",
     showEntries: true,
     entries:
-      { "2018":
-        [{ January:
-         [{ "1":
-               [{  title: "sample title",
-                   content: "try editing, deleting or adding your own!",
+      { "1995":
+        [{ September:
+         [{ "7":
+               [{  title: "CLICK ME!!!",
+                   content: "Click on entries to enter the editor."
+                   + " Here you can: change your entry's title and content" +
+                   ", save or discard your changes, or delete the entry entirely."
+                   + " If you'd like to add your own entry return home and click on new"
                }]
-           },
-           { "2":
-                 [{  title: "sample title",
-                     content: "try editing, deleting or adding your own!",
-                 }]
-            }
-          ]
-         },
-         { July:
-          [{ "7":
-                [{  title: "sample title",
-                    content: "try editing, deleting or adding your own!",
-                }]
-            }]
-          }]
-      },
+           }
+         ]
+      }]
+    },
     newEntry: {
                 title: "default title",
                 content: "default content"
               },
     editEntry: {
                 title: "default",
-                content: "default content"
+                content: "default"
               },
     editPosition: {year: 0, month: 0, day: 0, position: 0}
   };
 
   componentWillMount() {
 
-    window.localStorage.setItem("notes", JSON.stringify(this.state.entries));
     if (window.localStorage.notes) {
       let notes = JSON.parse(window.localStorage.notes);
       if (this.state.entries !== notes) {
@@ -141,8 +131,6 @@ class MainSection extends Component {
      let entriesCopy = this.state.entries;
      let change;
 
-
-
      if (this.state.editEntry.title === "default") {
        let monthsArray = entriesCopy[today[0]];
        let monthPos = monthsArray.length - 1;
@@ -151,20 +139,23 @@ class MainSection extends Component {
        let dayPos = daysArray.length - 1;
        let dayObj = daysArray[dayPos];
        let entriesArray = dayObj[today[2]];
-       entriesArray.concat(this.state.newEntry);
+       entriesArray = entriesArray.concat([this.state.newEntry]);
        dayObj[today[2]] = entriesArray;
        daysArray[dayPos] = dayObj;
        monthObj[today[1]] = daysArray;
        monthsArray[monthPos] = monthObj;
        entriesCopy[today[0]] = monthsArray;
      } else {
-       let newEntry = this.state.newEntry;
+       let newEntry = this.state.editEntry;
        let editYear = this.state.editPosition.year;
        let editMonth = this.state.editPosition.month;
        let editMonthName = Object.keys(entriesCopy[editYear][editMonth])[0];
        let editDay = this.state.editPosition.day;
+       let editDayName = Object.keys(entriesCopy[editYear][editMonth][editMonthName][editDay]);
        let editPos = this.state.editPosition.position;
-       entriesCopy[editYear][editMonth][editMonthName][editDay][editDay][editPos] = newEntry;
+
+       entriesCopy[editYear][editMonth][editMonthName][editDay][editDayName][editPos] = newEntry;
+
      }
 
      change = entriesCopy;
@@ -202,7 +193,6 @@ class MainSection extends Component {
      monthObj[currentMonth] = [];
      monthObj[currentMonth].push(dayObj);
 
-
      if (!entriesByYear.hasOwnProperty(currentYear)){
        entriesByYear[currentYear] = [monthObj];
      } else {
@@ -229,7 +219,7 @@ class MainSection extends Component {
            entriesByMonth[position][currentMonth] = entriesByDay;
          }
        }
-       entriesByYear[currentMonth] = entriesByMonth;
+       entriesByYear[currentYear] = entriesByMonth;
      }
 
 
@@ -245,7 +235,6 @@ class MainSection extends Component {
 
    const showEntry = (position) => {
 
-     console.log(position);
      let pos = JSON.parse(position);
      let year = pos.year;
      let month = pos.month;
@@ -255,12 +244,11 @@ class MainSection extends Component {
      let confirm = window.confirm("Edit this entry?");
 
      if (confirm) {
-       console.log(month);
-       console.log(year);
+
        let monthObject = this.state.entries[year][month];
        let monthName = Object.keys(monthObject)[0];
-       let dayNumber = Object.keys(monthObject[monthName])[0];
-       let chosen = monthObject[monthName][dayNumber][index];
+       let dayNumber = Object.keys(monthObject[monthName][day])[0];
+       let chosen = monthObject[monthName][day][dayNumber][index];
 
        this.setState({
          editEntry: chosen
@@ -338,7 +326,7 @@ class MainSection extends Component {
       }
       section = (<div>
                   {section}
-                  <Button click = {addEntry} name = "new"> </Button>
+                  <Button click = {goBack} name = "new"> </Button>
                  </div>);
 
    } else if (this.state.editEntry.title === "default") {
