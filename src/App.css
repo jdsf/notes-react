@@ -1,22 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
+
+
+#background-img {
+  position:absolute;
+  background-image: url("img/sunny.jpg");
+  background-repeat:no-repeat;
+  background-size:cover;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  /*filter: blur(3px);*/
+}
+
+
 .app-container{
   display: flex;
   flex-direction: column;
   justify-content:space-between;
-  background-color:beige;
   align-content:flex-start;
 }
 
 
+
+
 html, body, #root, .stretch-full {
+  position:absolute;
   text-align: center;
   margin: 0;
-  height: 100%;
+  height: 100vh;
+  width: 100vw;
+  font-family: 'PT Sans', sans-serif;
+}
+
+span {
+  white-space: pre;
 }
 
 .info{
   padding-left: 1%;
   padding-top: 1%;
-  padding-bottom: 0;
+  padding-bottom: 3.5%;
   text-align:left;
 }
 
@@ -24,6 +47,7 @@ html, body, #root, .stretch-full {
   text-align:left;
   margin:0;
   font-weight: normal;
+  padding-bottom: .25%;
 }
 
 #title > span {
@@ -33,26 +57,85 @@ html, body, #root, .stretch-full {
 }
 
 
+.header-main-section-footer{
+  display:flex;
+  flex-direction: column;
+}
+
+
+
 main {
-  background: white;
+ background: white;
   margin-left: 1%;
   margin-right: 1%;
   border-radius: 5px;
   border-style: outset;
   border-color: black;
-  border-width: .2em;
+  border-width: .1em;
 }
+
+
+
+header h1 > span, .year span {
+  border-style:solid;
+  border-color:black;
+  border-width: 1.5px;
+  background: #e1ff869e;;
+}
+
+
+
+/* line-on-sides soln from stack overflow courtesy of electrophanteau
+    Editted slightly to add size-change responsiveness
+*/
+.decorated{
+     overflow: hidden;
+     text-align: center;
+ }
+.decorated > span{
+    position: relative;
+    display: inline-block;
+}
+.decorated > span:before, .decorated > span:after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    border-bottom: 1.5px solid;
+    width: 35vw; /* half of limiter */
+    margin: 0 20px;
+}
+.decorated > span:before{
+    right: 100%;
+}
+.decorated > span:after{
+    left: 100%;
+}
+
+.yearGroup > .decorated >span:before, .yearGroup >.decorated >span:after {
+  border-bottom: .5px solid;
+  color:black;
+}
+/* end of line-on-sides */
 
 .hug{
   width: auto;
   display: inline-block;
 }
 
+.buttons {
+  padding:.5%;
+}
+
 button {
-  background-color: white;
+  background-color: #e1ff869e;
   color: black;
   border: 1px solid black;
   cursor: pointer;
+}
+
+button:hover{
+  background-color: black;
+  color: beige;
 }
 
 
@@ -68,12 +151,60 @@ button {
   margin-right:auto;
 }
 
-.info span {
+.info span > span {
   font-size: 16pt;
 }
 
+.info > span {
+  background: #ecffb4 ;
+  border-style:solid;
+  border-color:black;
+  border-width: 2px;
+  padding: .15%;
+  padding-top: .30%;
+}
+
+.year > span {
+ border-style: solid;
+ border-color: black;
+
+}
+
+
+.yearGroup {
+  padding: 2%;
+  padding-top: 0px;
+}
+
+.monthGroup {
+  background-color: #ecffb4;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  border-style: solid;
+  border-width: 1px;
+}
+
+
+.years, .months, .days {
+  display: flex;
+  flex-direction: row;
+  justify-content:center;
+}
+
+.years{
+  justify-content: space-around;
+}
+
+
+.day.underline {
+  margin:auto;
+  width:30%;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+
 .entries-container {
-  width:60%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -81,13 +212,37 @@ button {
 }
 
 div.entry:hover {
-  background-color: lightblue;
+  background: #e1ff869e;
+  border-left-style: solid;
+  border-left-width: 5px;
+  padding-left: 5px;
+  border-color: black;
+  color: black;
 }
 
 div.entry {
   cursor: pointer;
   flex-basis: 20%;
-  padding: 1em;
+  padding: 10px;
+  margin-top: .5em;
+  margin-left: .5em;
+  margin-right: .5em;
+}
+
+
+footer  span {
+  background: black;
+  color:white;
+  font-size: .8em;
+}
+
+footer{
+  margin-top: auto;
+}
+
+a{
+  color: yellow;
+  text-decoration:none;
 }
 
 /* animations */

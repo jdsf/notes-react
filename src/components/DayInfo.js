@@ -87,11 +87,12 @@ const DayInfo = (props) => {
 
   return (
     <div className = "info">
-      <p> {greeting}
+      <span>
+        {greeting}
         <span> {handleDayName()}</span> the
         <span> {handleDayNumber()}</span> of
-        <span> {handleMonth()}</span>
-      </p>
+        <span> {handleMonth()}  </span>
+      </span>
     </div>
   )
 

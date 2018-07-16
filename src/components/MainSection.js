@@ -21,16 +21,38 @@ class MainSection extends Component {
       { "1995":
         [{ September:
          [{ "7":
-               [{  title: "CLICK ME!!!",
+               [{  title: "CLICK ON ME!!!",
                    content: "Click on entries to enter the editor."
                    + " Here you can: change your entry's title and content" +
                    ", save or discard your changes, or delete the entry entirely."
                    + " If you'd like to add your own entry return home and click on new"
                }]
-           }
-         ]
-      }]
-    },
+          },
+          { "11":
+                [{  title: "<>< <>< <><",
+                    content: " Multiple entries can be saved per day."
+                },
+                {  title: "><> ><> ><> ><>",
+                    content: "See!!"
+
+                }
+              ]
+
+          }
+       ]
+         },
+         {October:
+          [{ "24":
+                [{  title: "Important: more info",
+                    content: "Please note your entries are saved locally on your browser" +
+                    " and not online. Make sure to copy and save any " +
+                    "important entries to your desktop in case you clear" +
+                    " your browser's data"
+                }]
+           }]
+         }
+        ]
+      },
     newEntry: {
                 title: "default title",
                 content: "default content"
@@ -305,107 +327,160 @@ class MainSection extends Component {
 
 
 
+  const handleDay = (position, dayName, currentMonth) => {
+    let dayNum = position.day;
+    let currentDayEntries = currentMonth[dayNum][dayName];
 
-   let section = [];
-   let yearHeading;
-   let monthHeading;
-   let dayHeading;
-   let position = this.state.editPosition;
+    return (
+      <div>
+        <Entries key = {dayNum} click = {showEntry.bind(this)}
+          entries = {currentDayEntries}
+          position = {JSON.stringify(position)}>
+        </Entries>
+        <br/>
+      </div>
+    )
+  }
 
-   if (this.state.showEntries){
-      let allYears =  Object.keys(this.state.entries);
-      for (let i = 0; i < allYears.length; i++) {
-        let year = allYears[i];
-        yearHeading = (
-          <h3 className = "year"> {year} </h3>
-        );
-        section.push(yearHeading);
-        position.year = year;
-        let monthsArray = this.state.entries[year];
-        for (let i = 0; i < monthsArray.length; i++) {
-          let month = Object.keys(monthsArray[i])[0];
-          monthHeading = (
-            <h4 className = "month"> {month} </h4>
-          );
-          section.push(monthHeading);
-          position.month = i;
-          let currentMonth = monthsArray[i][month];
-          for (let i = 0; i < currentMonth.length; i++) {
-            let day =  Object.keys(currentMonth[i])[0];
-            dayHeading = (
-              <h5 className = "day"> {day} </h5>
-            );
-            section.push(dayHeading);
-            position.day = i;
-            let currentDayEntries = currentMonth[i][day];
-            section.push(
-              <div>
-                <Entries key = {i} click = {showEntry.bind(this)}
-                  entries = {currentDayEntries}
-                  position = {JSON.stringify(position)}>
-                </Entries>
-                <br/>
-              </div>
-            );
-          }
-        }
-      }
 
-      if (section.length === 0) {
-        section.push (
-          <p> No entries whatsoever! Let us do something about that :) </p>
-        );
-      }
+  const handleMonth = (position, monthName, monthsArray) => {
+    let monthNum = position.month;
+    let monthGroup = [];
+    let currentMonth = monthsArray[monthNum][monthName];
+    for (let i = 0; i < currentMonth.length; i++) {
+      let day =  Object.keys(currentMonth[i])[0];
+      position.day = i;
+    let dayHeading = (
+        <div className = "dayGroup" >
+          <h5 className = "day underline"> <span> {day} </span> </h5>
+          {handleDay(position, day, currentMonth)}
+        </div>
+      );
+      monthGroup.push(dayHeading);
+    }
 
-      section = (<div>
-                  {section}
-                  <Button click = {goBack} name = "new"> </Button>
-                 </div>);
+    return monthGroup;
+  }
 
-   } else if (this.state.editEntry.title === "default") {
-     section = (<div className = "fade">
-                   <Editor trackText = {trackText.bind(this)}
-                           chosenEntry = {this.state.editEntry}
-                   > </Editor>
-                   <br/>
-                    <Button click = {addEntry} name = "done"> </Button>
-                    <Button click = {goBack} name = "return"> </Button>
-                 </div>
-               );
-   } else {
-     section = (<div className = "fade">
-                   <Editor trackText = {trackText.bind(this)}
-                           chosenEntry = {this.state.editEntry}
-                   > </Editor>
-                   <br/>
-                   <Button click = {addEntry} name = "done"> </Button>
-                   <Button click = {goBack} name = "return"> </Button>
-                   <Button click = {deleteEntry} name = "delete"> </Button>
-                 </div>
-               );
-   }
+  const handleYear = (position) => {
+    let year = position.year;
+    let yearGroup = [];
+    let monthsArray = this.state.entries[year];
+    for (let i = 0; i < monthsArray.length; i++) {
+      let month = Object.keys(monthsArray[i])[0];
+      position.month = i;
+    let monthHeading = (
+        <div className = "monthGroup">
+          <h4 className = "month"> {month} </h4>
+            <div className = "days ">
+              {handleMonth(position, month, monthsArray)}
+            </div>
+        </div>
+      );
+      yearGroup.push(monthHeading);
+    }
+
+    return yearGroup;
+  }
+
+  const createSection = () => {
+
+    let section = [];
+    let yearHeading;
+    let position = this.state.editPosition;
+
+    if (this.state.showEntries){
+       let allYears =  Object.keys(this.state.entries);
+       for (let i = 0; i < allYears.length; i++) {
+         let year = allYears[i];
+         position.year = year;
+         yearHeading = (
+           <div className = "yearGroup">
+            <h3 className = "year decorated"> <span> {"  " + year + "  "} </span> </h3>
+            <div className = "months">
+              {handleYear(position)}
+            </div>
+           </div>
+         );
+
+         section.push(yearHeading);
+       }
+
+       if (section.length === 0) {
+         section.push (
+           <p> No entries whatsoever! Let us do something about that :) </p>
+         );
+       }
+
+       section = (<div>
+                   <div className = "years">
+                   {section}
+                   </div>
+                   <div className = "buttons">
+                     <Button click = {goBack} name = "new"> </Button>
+                   </div>
+                  </div>);
+
+    } else if (this.state.editEntry.title === "default") {
+      section = (<div className = "fade">
+                    <Editor trackText = {trackText.bind(this)}
+                            chosenEntry = {this.state.editEntry}
+                    > </Editor>
+                    <br/>
+                    <div className = "buttons">
+                     <Button click = {addEntry} name = "done"> </Button>
+                     <Button click = {goBack} name = "return"> </Button>
+                    </div>
+                  </div>
+                );
+    } else {
+      section = (<div className = "fade">
+                    <Editor trackText = {trackText.bind(this)}
+                            chosenEntry = {this.state.editEntry}
+                    > </Editor>
+                    <br/>
+                    <div className = "buttons">
+                      <Button click = {addEntry} name = "done"> </Button>
+                      <Button click = {goBack} name = "return"> </Button>
+                      <Button click = {deleteEntry} name = "delete"> </Button>
+                    </div>
+                  </div>
+                );
+    }
+
+    return section;
+
+  }
+
+
 
     return (
       <div className = "app-container stretch-full">
-        <div id= "header-main-section">
+        <div id= "background-img">
+        </div>
+        <div className= "header-main-section-footer stretch-full">
           <DayInfo  date = {new Date()}></DayInfo>
           <h1 id = "title">
             <span>   notes </span>
           </h1>
           <main>
-            <header><h1> {this.state.header} </h1></header>
+            <header>
+              <h1 className = "decorated">
+                <span>   {this.state.header}   </span>
+              </h1>
+            </header>
             <TransitionGroup>
               <CSSTransition timeout = {1000} classNames = "fade">
-                  {section}
+                  {createSection()}
               </CSSTransition>
             </TransitionGroup>
           </main>
+          <footer>
+            <p> <span>   Notes app powered by react / /
+               <a href = "https://www.github.com/jdsf">  jdsf @github </a> / / 2018, all rights reserved  </span>
+            </p>
+          </footer>
         </div>
-        <footer>
-          <p> Notes app powered by react / /
-             jdsf @github / / 2018, all rights reserved
-          </p>
-        </footer>
       </div>
     )
   }

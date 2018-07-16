@@ -6,8 +6,13 @@ class Editor extends React.Component {
     super(props);
 
 
-    this.state = {title: "title goes here!", content: "type your entry here!"
-    }
+    this.state = {title: "title goes here!",
+                  content: "your entry here!" + "\r\n \r\n" +
+                  " \"Only the hand that erases \r\n" +
+                  " \r\n   can write \r\n   " +
+                  " \r\n     the true thing\" \r\n" +
+                  "\r\n             - Meister Eckhart"
+                 }
   }
 
   componentWillMount() {
