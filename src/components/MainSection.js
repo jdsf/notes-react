@@ -64,6 +64,7 @@ class MainSection extends Component {
     editPosition: {year: 0, month: 0, day: 0, position: 0}
   };
 
+
   componentWillMount() {
     if (window.localStorage.notes_react) {
       let notes = JSON.parse(window.localStorage.notes_react);
@@ -124,7 +125,7 @@ class MainSection extends Component {
 
    const updateStorage = (entries) => {
      let notes = JSON.stringify(entries);
-     window.localStorage.notes = notes;
+     window.localStorage.notes_react = notes;
    }
 
    const trackText = (field, value) => {
@@ -291,6 +292,16 @@ class MainSection extends Component {
    }
 
 
+   const emptySearch = (arr) => {
+     let pos = -1;
+     for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === undefined) {
+        pos = i;
+      }
+     }
+    return pos;
+   }
+
    const deleteEntry = () => {
      let confirm = window.confirm("Are you sure?");
      if (confirm){
@@ -299,20 +310,32 @@ class MainSection extends Component {
        let editMonth = this.state.editPosition.month;
        let editMonthName = Object.keys(change[editYear][editMonth])[0];
        let editDay = this.state.editPosition.day;
-       let editDayName = Object.keys(change[editYear][editMonth][editMonthName][editDay]);
+       let editDayName = Object.keys(change[editYear][editMonth][editMonthName][editDay])[0];
        let editPos = this.state.editPosition.position;
+
+       let allThings = [change, editYear, editMonth, editMonthName, editDay, editDayName, editPos];
+
+
 
        change[editYear][editMonth][editMonthName][editDay][editDayName].splice(editPos, 1);
        let endBranch = change[editYear][editMonth][editMonthName][editDay][editDayName];
        if (endBranch.length === 0){
          delete change[editYear][editMonth][editMonthName][editDay];
          endBranch = change[editYear][editMonth][editMonthName];
-         if (endBranch.length === 0 || endBranch.includes(undefined)) {
+         if (endBranch.length === 0 || (endBranch.includes(undefined) &&
+             endBranch.length === 1 )) {
            delete change[editYear][editMonth];
            endBranch = change[editYear];
-           if (endBranch.length === 0 || endBranch.includes(undefined)) {
-             delete change[editYear];
+           if (endBranch.length === 0 || (endBranch.includes(undefined) &&
+               endBranch.length === 1 )) {
+                   delete change[editYear];
+           } else {
+             let emptyPos = emptySearch(endBranch);
+             change[editYear].splice(emptyPos, 1);
            }
+         } else if (endBranch.includes(undefined)) {
+           let emptyPos = emptySearch(endBranch);
+           change[editYear][editMonth][editMonthName].splice(emptyPos, 1);
          }
        }
 
