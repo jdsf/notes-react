@@ -65,15 +65,15 @@ class MainSection extends Component {
   };
 
   componentWillMount() {
-    if (window.localStorage.notes) {
-      let notes = JSON.parse(window.localStorage.notes);
+    if (window.localStorage.notes_react) {
+      let notes = JSON.parse(window.localStorage.notes_react);
       if (this.state.entries !== notes) {
         this.setState({
           entries: notes
         });
       }
     } else {
-      window.localStorage.setItem("notes", JSON.stringify(this.state.entries));
+      window.localStorage.setItem("notes_react", JSON.stringify(this.state.entries));
     }
 
 
