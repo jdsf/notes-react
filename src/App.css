@@ -112,7 +112,7 @@ header h1 > span, .year span {
 }
 
 .yearGroup > .decorated >span:before, .yearGroup >.decorated >span:after {
-  border-bottom: .5px solid;
+  border-bottom: 1px solid;
   color:black;
 }
 /* end of line-on-sides */
