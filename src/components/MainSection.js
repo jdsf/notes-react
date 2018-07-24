@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import Entries from './Entries';
 import Editor from './Editor';
 import Button from './Button';
-import DayInfo from './DayInfo';
-
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { VelocityComponent, VelocityTransitionGroup } from 'velocity-react';
 
 
 
@@ -445,7 +443,7 @@ class MainSection extends Component {
                   </div>);
 
     } else if (this.state.editEntry.title === "default") {
-      section = (<div className = "fade">
+      section = (<div>
                     <Editor trackText = {trackText.bind(this)}
                             chosenEntry = {this.state.editEntry}
                     > </Editor>
@@ -457,7 +455,7 @@ class MainSection extends Component {
                   </div>
                 );
     } else {
-      section = (<div className = "fade">
+      section = (<div>
                     <Editor trackText = {trackText.bind(this)}
                             chosenEntry = {this.state.editEntry}
                     > </Editor>
@@ -478,34 +476,20 @@ class MainSection extends Component {
 
 
     return (
-      <div className = "app-container stretch-full">
-        <div id= "background-img">
-        </div>
-        <div className= "header-main-section-footer stretch-full">
-          <DayInfo  date = {new Date()}></DayInfo>
-          <h1 id = "title">
-            <span>   notes </span>
-          </h1>
-          <main>
-            <header>
-              <h1 className = "decorated">
-                <span>   {this.state.header}   </span>
-              </h1>
-            </header>
-            <TransitionGroup>
-              <CSSTransition timeout = {1000} classNames = "fade">
-                  {createSection()}
-              </CSSTransition>
-            </TransitionGroup>
-          </main>
-          <footer>
-            <p> <span>   Notes app powered by react / /
-               <a href = "https://www.github.com/jdsf">  jdsf @github </a> / / 2018, all rights reserved  </span>
-            </p>
-          </footer>
-        </div>
+      <div className= "header-main-section-footer stretch-full">
+        <main>
+          <header>
+            <h1 className = "decorated">
+              <span>   {this.state.header}   </span>
+            </h1>
+          </header>
+          <VelocityTransitionGroup
+            enter = {{animation: "fadeIn"}}>
+          {createSection()}
+          </VelocityTransitionGroup>
+        </main>
       </div>
-    )
+    );
   }
 }
 
