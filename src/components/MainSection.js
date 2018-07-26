@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import Entries from './Entries';
 import Editor from './Editor';
 import Button from './Button';
+import CreateEntry from './CreateEntry'
+import EditEntry from './EditEntry'
 import { VelocityComponent, VelocityTransitionGroup } from 'velocity-react';
+import 'velocity-animate/velocity.ui';
 
 
 
@@ -64,6 +67,8 @@ class MainSection extends Component {
 
 
   componentWillMount() {
+
+    window.localStorage.setItem("notes_react", JSON.stringify(this.state.entries));
     if (window.localStorage.notes_react) {
       let notes = JSON.parse(window.localStorage.notes_react);
       if (this.state.entries !== notes) {
@@ -444,28 +449,48 @@ class MainSection extends Component {
 
     } else if (this.state.editEntry.title === "default") {
       section = (<div>
-                    <Editor trackText = {trackText.bind(this)}
-                            chosenEntry = {this.state.editEntry}
-                    > </Editor>
-                    <br/>
-                    <div className = "buttons">
-                     <Button click = {addEntry} name = "done"> </Button>
-                     <Button click = {goBack} name = "return"> </Button>
-                    </div>
-                  </div>
+                  <CreateEntry
+                    header = {this.state.header}
+                    trackText = {trackText.bind(this)}
+                    chosenEntry = {this.state.editEntry}
+                    addEntry = {addEntry.bind(this)}
+                    goBack = {goBack.bind(this)}
+                  > </CreateEntry>
+                 </div>
+                 // <Editor trackText = {trackText.bind(this)}
+                 //         chosenEntry = {this.state.editEntry}
+                 // > </Editor>
+                 // <br/>
+                 // <div className = "buttons">
+                 //  <Button click = {addEntry} name = "done"> </Button>
+                 //  <Button click = {goBack} name = "return"> </Button>
+                 // </div>
+
                 );
     } else {
       section = (<div>
-                    <Editor trackText = {trackText.bind(this)}
-                            chosenEntry = {this.state.editEntry}
-                    > </Editor>
-                    <br/>
-                    <div className = "buttons">
-                      <Button click = {addEntry} name = "done"> </Button>
-                      <Button click = {goBack} name = "return"> </Button>
-                      <Button click = {deleteEntry} name = "delete"> </Button>
-                    </div>
+                  <EditEntry
+                    header = this.state.header
+                    trackText = {trackText.bind(this)}
+                    chosenEntry = {this.state.editEntry}
+                    addEntry = {addEntry.bind(this)}
+                    goBack = {addEntry.bind(this)}
+                    deleteEntry = {deleteEntry.bind(this)}
+                   > </EditEntry>
                   </div>
+
+
+
+                    // <Editor trackText = {trackText.bind(this)}
+                    //         chosenEntry = {this.state.editEntry}
+                    // > </Editor>
+                    // <br/>
+                    // <div className = "buttons">
+                    //   <Button click = {addEntry} name = "done"> </Button>
+                    //   <Button click = {goBack} name = "return"> </Button>
+                    //   <Button click = {deleteEntry} name = "delete"> </Button>
+                    // </div>
+
                 );
     }
 
