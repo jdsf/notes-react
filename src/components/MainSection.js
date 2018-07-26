@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import Entries from './Entries';
-import Editor from './Editor';
-import Button from './Button';
 import CreateEntry from './CreateEntry'
 import EditEntry from './EditEntry'
 import DisplayEntries from './DisplayEntries'
@@ -9,12 +6,7 @@ import { VelocityComponent, VelocityTransitionGroup } from 'velocity-react';
 import 'velocity-animate/velocity.ui';
 
 
-
-
-
-
 class MainSection extends Component {
-
 
   state = {
     header: "home",
@@ -69,7 +61,6 @@ class MainSection extends Component {
 
   componentWillMount() {
 
-    window.localStorage.setItem("notes_react", JSON.stringify(this.state.entries));
     if (window.localStorage.notes_react) {
       let notes = JSON.parse(window.localStorage.notes_react);
       if (this.state.entries !== notes) {
@@ -145,19 +136,6 @@ class MainSection extends Component {
      }
 
    }
-
-   /*
-   entries:
-     { "2018":
-       [{ July:
-         [{ "7":
-               [{  title: "sample title",
-                   content: "try editing, deleting or adding your own!",
-               }]
-           }]
-        }]
-     }
-   */
 
 
    const addEntry = () => {
@@ -353,110 +331,44 @@ class MainSection extends Component {
    }
 
 
-  const createSection = () => {
-
-    let section = [];
-    let yearHeading;
-    let position = this.state.editPosition;
-
-    if (this.state.showEntries){
-
-       section = (<div>
-                   <DisplayEntries
-                    header = {this.state.header}
-                    editPosition = {this.state.editPosition}
-                    entries = {this.state.entries}
-                    goBack = {goBack.bind(this)}
-                    showEntry = {showEntry.bind(this)}
-                   > </DisplayEntries>
-                  </div>);
-
-    } else if (this.state.editEntry.title === "default") {
-      section = (<div>
-                  <CreateEntry
-                    header = {this.state.header}
-                    trackText = {trackText.bind(this)}
-                    chosenEntry = {this.state.editEntry}
-                    addEntry = {addEntry.bind(this)}
-                    goBack = {goBack.bind(this)}
-                  > </CreateEntry>
-                 </div>
-                 // <Editor trackText = {trackText.bind(this)}
-                 //         chosenEntry = {this.state.editEntry}
-                 // > </Editor>
-                 // <br/>
-                 // <div className = "buttons">
-                 //  <Button click = {addEntry} name = "done"> </Button>
-                 //  <Button click = {goBack} name = "return"> </Button>
-                 // </div>
-
-                );
-    } else {
-      section = (<div>
-                  <EditEntry
-                    header = {this.state.header}
-                    trackText = {trackText.bind(this)}
-                    chosenEntry = {this.state.editEntry}
-                    addEntry = {addEntry.bind(this)}
-                    goBack = {addEntry.bind(this)}
-                    deleteEntry = {deleteEntry.bind(this)}
-                   > </EditEntry>
-                  </div>
-
-
-
-                    // <Editor trackText = {trackText.bind(this)}
-                    //         chosenEntry = {this.state.editEntry}
-                    // > </Editor>
-                    // <br/>
-                    // <div className = "buttons">
-                    //   <Button click = {addEntry} name = "done"> </Button>
-                    //   <Button click = {goBack} name = "return"> </Button>
-                    //   <Button click = {deleteEntry} name = "delete"> </Button>
-                    // </div>
-
-                );
-    }
-
-    return section;
-
-  }
-
 
 
     return (
-      <div className= "header-main-section-footer stretch-full">
-        <VelocityTransitionGroup
-          enter = {{animation: "fadeIn"}}
-        >
-        {(this.state.showEntries ?  <DisplayEntries
-                                      header = {this.state.header}
-                                      editPosition = {this.state.editPosition}
-                                      entries = {this.state.entries}
-                                      goBack = {goBack.bind(this)}
-                                      showEntry = {showEntry.bind(this)}
-                                     ></DisplayEntries>
-                                : (this.state.editEntry.title === "default" ?
-                                      <CreateEntry
-                                        header = {this.state.header}
-                                        trackText = {trackText.bind(this)}
-                                        chosenEntry = {this.state.editEntry}
-                                        addEntry = {addEntry.bind(this)}
-                                        goBack = {goBack.bind(this)}
-                                      ></CreateEntry>
-                                   :
-                                     <EditEntry
-                                       header = {this.state.header}
-                                       trackText = {trackText.bind(this)}
-                                       chosenEntry = {this.state.editEntry}
-                                       addEntry = {addEntry.bind(this)}
-                                       goBack = {addEntry.bind(this)}
-                                       deleteEntry = {deleteEntry.bind(this)}
-                                      ></EditEntry>
-                                   )
-        )}
-        </VelocityTransitionGroup>
-      </div>
+      <VelocityTransitionGroup className = "header-main-section-footer stretch-full"
+        enter = {{animation: "transition.slideDownIn", stagger: 2500}}
+      >
+      {(this.state.showEntries ?  <DisplayEntries
+                                    header = {this.state.header}
+                                    editPosition = {this.state.editPosition}
+                                    entries = {this.state.entries}
+                                    goBack = {goBack.bind(this)}
+                                    showEntry = {showEntry.bind(this)}
+                                   ></DisplayEntries>
+                              : undefined
+      )}
+      {  (!this.state.showEntries &&
+           this.state.editEntry.title === "default") ?
+           <CreateEntry
+              header = {this.state.header}
+              trackText = {trackText.bind(this)}
+              chosenEntry = {this.state.editEntry}
+              addEntry = {addEntry.bind(this)}
+              goBack = {goBack.bind(this)}
+            ></CreateEntry> : undefined
+      }
+
+        {(!this.state.showEntries &&
+           this.state.editEntry.title !== "default") ?
+              <EditEntry
+                header = {this.state.header}
+                trackText = {trackText.bind(this)}
+                chosenEntry = {this.state.editEntry}
+                addEntry = {addEntry.bind(this)}
+                goBack = {addEntry.bind(this)}
+                deleteEntry = {deleteEntry.bind(this)}
+               ></EditEntry> : undefined
+       }
+      </VelocityTransitionGroup>
     );
   }
 }
