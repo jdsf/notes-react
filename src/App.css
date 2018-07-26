@@ -192,12 +192,11 @@ textarea{
 
 
 .yearGroup {
-  padding: 2%;
+  padding: 1%;
   padding-top: 0px;
 }
 
 .monthGroup {
-  /*background-color: #e1ff869e; */
   background: white;
   margin-left: 2.5%;
   margin-right: 2.5%;

@@ -429,7 +429,32 @@ class MainSection extends Component {
         <VelocityTransitionGroup
           enter = {{animation: "fadeIn"}}
         >
-        {createSection()}
+        {(this.state.showEntries ?  <DisplayEntries
+                                      header = {this.state.header}
+                                      editPosition = {this.state.editPosition}
+                                      entries = {this.state.entries}
+                                      goBack = {goBack.bind(this)}
+                                      showEntry = {showEntry.bind(this)}
+                                     ></DisplayEntries>
+                                : (this.state.editEntry.title === "default" ?
+                                      <CreateEntry
+                                        header = {this.state.header}
+                                        trackText = {trackText.bind(this)}
+                                        chosenEntry = {this.state.editEntry}
+                                        addEntry = {addEntry.bind(this)}
+                                        goBack = {goBack.bind(this)}
+                                      ></CreateEntry>
+                                   :
+                                     <EditEntry
+                                       header = {this.state.header}
+                                       trackText = {trackText.bind(this)}
+                                       chosenEntry = {this.state.editEntry}
+                                       addEntry = {addEntry.bind(this)}
+                                       goBack = {addEntry.bind(this)}
+                                       deleteEntry = {deleteEntry.bind(this)}
+                                      ></EditEntry>
+                                   )
+        )}
         </VelocityTransitionGroup>
       </div>
     );
