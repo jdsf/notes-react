@@ -69,15 +69,8 @@ span {
 }
 
 
-.header-main-section-footer{
-  display:flex;
-  flex-direction: column;
-}
-
-
-
 main {
-  background: white;
+  background-color: white;
   margin: auto;
   border-style: outset;
   border-color: black;
@@ -88,12 +81,11 @@ main {
 }
 
 
-
 header h1 > span, .year span {
   border-style:solid;
   border-color:black;
   border-width: 1.5px;
-  background: #e1ff869e;
+  background-color: #e1ff869e;
 }
 
 
@@ -237,12 +229,11 @@ textarea{
 }
 
 div.entry:hover {
-  background: #e1ff869e;
+  background-color: #e1ff869e;
   border-left-style: solid;
   border-left-width: 5px;
   padding-left: 5px;
   border-color: black;
-  color: black;
 }
 
 div.entry {

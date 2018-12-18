@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './index-output.css';
 import MainSection from './components/MainSection'
 import DayInfo from './components/DayInfo';
 import { VelocityComponent, VelocityTransitionGroup } from 'velocity-react';

@@ -1,0 +1,285 @@
+@import url("https://fonts.googleapis.com/css?family=PT+Sans");
+body,
+html,
+#root,
+.stretch-full,
+.app-container {
+  margin: 0;
+  padding: 0;
+}
+
+.blend {
+  mix-blend-mode: lighten;
+}
+
+span {
+  white-space: pre;
+}
+
+.hug {
+  width: auto;
+  display: inline-block;
+}
+
+.center {
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  background-color: #e1ff869e;
+  font-size: 15pt;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+}
+button:hover {
+  background-color: black;
+  color: beige;
+}
+
+.buttons {
+  padding: 0.5%;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+
+.decorated {
+  overflow: hidden;
+  text-align: center;
+}
+.decorated > span {
+  position: relative;
+  display: inline-block;
+}
+.decorated > span:before,
+.decorated > span:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  border-bottom: 1.5px solid;
+  width: 15vw;
+  margin: 0 20px;
+}
+.decorated > span:before {
+  right: 100%;
+}
+.decorated > span:after {
+  left: 100%;
+}
+
+body #root main .years .yearGroup .year span, body #root main header h1 > span {
+  border-style: solid;
+  border-color: black;
+  border-width: 1.5px;
+  background-color: #e1ff869e;
+}
+
+body #root main .years .yearGroup .months .monthGroup, body #root .info > span {
+  border-style: solid;
+  border-color: black;
+  border-width: 1.5px;
+  background-color: white;
+}
+
+body #root main .years .yearGroup .months .monthGroup .days .dayGroup .entries-container, body #root main .years .yearGroup .months .monthGroup .days {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+body #root main .years .yearGroup .months, body #root main .years, .app-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -ms-flex-line-pack: start;
+  align-content: flex-start;
+}
+
+.app-container {
+  height: 100%;
+}
+
+body {
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  font-family: "PT Sans", sans-serif;
+  position: fixed;
+}
+body #root {
+  height: 100%;
+}
+body #root #background-img {
+  position: absolute;
+  background-image: url("img/sunny1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  filter: brightness(90%);
+  -webkit-filter: brightness(90%);
+}
+body #root .info {
+  padding-left: 1%;
+  padding-top: 1%;
+  padding-bottom: 1.5%;
+  text-align: center;
+  color: black;
+  -webkit-animation: fade-in 1s 1 0s ease;
+  animation: fade-in 1s 1 0s ease;
+}
+body #root .info > span {
+  border-width: 2px;
+  padding: 0.15%;
+  padding-top: 0.3%;
+}
+body #root .info > span > span {
+  font-size: 16pt;
+}
+body #root #title {
+  text-align: left;
+  margin: 0;
+  font-weight: normal;
+  padding-top: 10px;
+  padding-bottom: 0.25%;
+}
+body #root #title span {
+  background-color: black;
+  color: white;
+}
+body #root main {
+  background-color: white;
+  margin: auto;
+  margin-top: 20px;
+  border-style: outset;
+  border-color: black;
+  border-width: 0.1em;
+  width: 90%;
+  outline: 1px solid black;
+  outline-offset: -8px;
+}
+body #root main div.entry {
+  cursor: pointer;
+  -ms-flex-preferred-size: 20%;
+  flex-basis: 20%;
+  padding: 10px;
+  margin-top: 0.5em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+body #root main div.entry:hover {
+  border-left-style: solid;
+  border-left-width: 5px;
+  padding-left: 5px;
+  border-color: black;
+  background-color: #e1ff869e;
+}
+body #root main .years {
+  max-height: 350px;
+  overflow-y: scroll;
+}
+body #root main .years::-webkit-scrollbar {
+  width: 4px;
+}
+body #root main .years::-webkit-scrollbar-track {
+  background-color: black;
+}
+body #root main .years::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: white;
+}
+body #root main .years::-webkit-scrollbar-thumb:hover {
+  background-color: #e1ff869e;
+}
+body #root main .years .yearGroup {
+  padding: 1%;
+  padding-top: 0px;
+  padding-bottom: 50px;
+}
+body #root main .years .yearGroup > .decorated > span:before,
+body #root main .years .yearGroup > .decorated > span:after {
+  border-bottom: 1px solid;
+  color: black;
+}
+body #root main .years .yearGroup .months .monthGroup {
+  margin-bottom: 15px;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  border-width: 1px;
+}
+body #root main .years .yearGroup .months .monthGroup .days {
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+body #root main .years .yearGroup .months .monthGroup .days .dayGroup h5.day.underline {
+  margin: auto;
+  width: 30%;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+body #root main .years .yearGroup .months .monthGroup .days .dayGroup .entries-container {
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+@media only screen and (min-width: 768px) {
+  body #root main body #root main {
+    width: 80%;
+  }
+  body #root main .years {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+  }
+}
+body #root main textarea {
+  isolation: auto;
+  width: 100%;
+}
+body #root main .editor {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 80%;
+  padding: 1.5%;
+}
+body #root footer span {
+  background-color: black;
+  color: white;
+  font-size: 0.8em;
+}
+body #root .footer {
+  padding-top: 50px;
+  margin: auto;
+  text-align: center;
+  width: 80%;
+}
+body #root a {
+  color: yellow;
+  text-decoration: none;
+}
+
+/*# sourceMappingURL=index-output.css.map */
